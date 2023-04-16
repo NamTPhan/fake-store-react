@@ -4,6 +4,7 @@ import HeartIcon from "../assets/svg/heart-filled-red.svg";
 import CartIcon from "../assets/svg/cart.svg";
 import HamburgerMenuIcon from "../assets/svg/outline-bars-3.svg";
 import CrossIcon from "../assets/svg/cross-white.svg";
+import { SearchBar } from "./Searchbar";
 
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,11 +22,13 @@ export const NavBar = () => {
             </span>
           </div>
           <div className='hidden sm:block'>
-            {/* <search-bar
-            v-model="searchQuery"
-            placeholder="Search in store"
-            onClick="searchProducts"
-          /> */}
+            <SearchBar
+              id='navbar-search'
+              name='navbar-search'
+              placeholder='Search in store'
+              onChange={e => console.log(e.target.value)}
+              onClick={e => console.log(e.target.value)}
+            />
           </div>
           <div className='hidden md:block'>
             <div className='ml-4 flex items-center md:ml-6 space-x-2'>
@@ -141,7 +144,13 @@ export const NavBar = () => {
       {isMobileMenuOpen && (
         <div id='mobile-menu' className='block md:hidden'>
           <div className='space-y-1 px-2 pt-2 pb-3 sm:px-3'>
-            {/* <search-bar placeholder="Search in store" /> */}
+            <SearchBar
+              id='navbar-mobile-search'
+              name='navbar-mobile-search'
+              placeholder='Search in store'
+              onChange={e => console.log(e.target.value)}
+              onClick={() => console.log()}
+            />
             {/* TODO: Replace hidden with block  */}
             <a
               href='/'
