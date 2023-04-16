@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
+import { NavBar } from "./components/NavBar.tsx";
 
 const App = () => {
   const [theme, setTheme] = useState("light");
@@ -12,7 +13,7 @@ const App = () => {
 
   return (
     <div className={theme}>
-      <h1>test</h1>
+      <NavBar />
     </div>
   );
 };
