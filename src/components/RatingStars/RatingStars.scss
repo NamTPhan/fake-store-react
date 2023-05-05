@@ -1,0 +1,16 @@
+.rating-stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  @apply inline-block text-[25px] leading-[0.8];
+  font-family: Times; // make sure ★ appears correctly
+
+  &::before {
+    content: "★★★★★";
+    background: linear-gradient(
+      90deg,
+      #fde047 var(--percent),
+      #e5e7eb var(--percent)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
