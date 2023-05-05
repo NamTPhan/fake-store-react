@@ -5,13 +5,14 @@ import { RouterProvider } from "react-router-dom";
 import { routes } from "./router/router.tsx";
 
 const App = () => {
-  const [theme, setTheme] = useState("light");
+  const [theme] = useState("light");
+  // const [theme, setTheme] = useState("light");
 
-  const themeToggler = () => {
-    const currentTheme = theme === "dark" ? "light" : "dark";
-    setTheme(currentTheme);
-    localStorage.setItem("theme", currentTheme);
-  };
+  // const themeToggler = () => {
+  //   const currentTheme = theme === "dark" ? "light" : "dark";
+  //   setTheme(currentTheme);
+  //   localStorage.setItem("theme", currentTheme);
+  // };
 
   return (
     <div className={theme}>
