@@ -12,4 +12,8 @@ export const routes = createBrowserRouter([
     path: "favorites",
     element: <FavoritesPage />,
   },
+  {
+    path: "productinfo/:id",
+    // element: <ProductInfoPage />
+  },
 ]);
