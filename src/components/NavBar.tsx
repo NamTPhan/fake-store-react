@@ -17,9 +17,9 @@ export const NavBar = () => {
             <div className='flex-shrink-0'>
               <img className='h-8 w-8' src={ReactLogo} alt='Your Company' />
             </div>
-            <span className='text-white ml-2 cursor-pointer' onClick={() => {}}>
+            <a className='text-white ml-2 cursor-pointer' href='/'>
               Fake Store
-            </span>
+            </a>
           </div>
           <div className='hidden sm:block'>
             <SearchBar
@@ -56,10 +56,10 @@ export const NavBar = () => {
                   />
                 </button>
               </div>
-              <button type='button' onClick={() => {}}>
+              <a href='/favorites'>
                 <span className='sr-only'>View Favorites</span>
                 <img src={HeartIcon} alt='favorite' />
-              </button>
+              </a>
 
               {/* Profile dropdown TODO: Remove hidden  */}
               <div className='hidden relative mx-1'>
@@ -101,10 +101,10 @@ export const NavBar = () => {
             </div>
           </div>
           <div className='-mr-2 flex md:hidden space-x-3'>
-            <button type='button' onClick={() => {}}>
+            <a href='/favorites'>
               <span className='sr-only'>View Favorites</span>
               <img src={HeartIcon} alt='favorite' />
-            </button>
+            </a>
             <button
               type='button'
               onClick={() => console.log("toggleCartSideBar")}
