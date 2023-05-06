@@ -102,7 +102,7 @@ export const NavBar = () => {
                 </button>
               </div>
             </div>
-            <div className='-mr-2 flex md:hidden space-x-3'>
+            <div className='-mr-2 flex md:hidden space-x-3 items-baseline'>
               <a href='/favorites'>
                 <span className='sr-only'>View Favorites</span>
                 <img src={HeartIcon} alt='favorite' />
