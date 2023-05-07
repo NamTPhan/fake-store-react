@@ -5,8 +5,12 @@ import {
   useGetProductsQuery,
 } from "../features/apiSlice";
 import { IProduct } from "../interfaces/product.interface";
+import { useDispatch } from "react-redux";
+import { addFavorite } from "../features/favoriteSlice";
 
 export const HomePage = () => {
+  const dispatch = useDispatch();
+
   const { data: productCategories, isSuccess: hasCategoriesLoaded } =
     useGetProductCategoriesQuery();
 
@@ -16,6 +20,10 @@ export const HomePage = () => {
     isSuccess,
     isError: hasProductsError,
   } = useGetProductsQuery();
+
+  const addRemoveProductFavorite = (product: IProduct) => {
+    dispatch(addFavorite(product));
+  };
 
   return (
     <div className='min-h-full'>
@@ -51,7 +59,7 @@ export const HomePage = () => {
             >
               <div className='absolute inset-0 w-3 bg-green-500 transition-all duration-[250ms] ease-out group-hover:w-full'></div>
               <span className='relative text-black group-hover:text-white capitalize'>
-                {category}
+                {category.replace("-", " ")}
               </span>
             </button>
           ))}
@@ -66,7 +74,7 @@ export const HomePage = () => {
         )}
 
         {hasProductsError && (
-          <h2 className='text-2xl text-red-500 text-center'>
+          <h2 className='text-2xl text-center'>
             No products found... Please try again later.
           </h2>
         )}
@@ -81,7 +89,7 @@ export const HomePage = () => {
                 rating={product.rating}
                 thumbnail={product.thumbnail}
                 // is-favorite={isProductInFavorites(product)}
-                // onClickAddToCart={favoriteStore.addRemoveFavorite(product)}
+                onClickAddToFavorites={() => addRemoveProductFavorite(product)}
                 // onClickAddToCart={cartStore.addToCart(product)}
               />
             </div>
