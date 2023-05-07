@@ -6,18 +6,18 @@ import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   productId: number;
-  productImage: string;
+  thumbnail: string;
   productName: string;
   rating: number;
   price: number;
-  isFavorite: { type: boolean; default: false };
-  onClickAddToFavorites: (event: React.MouseEvent<HTMLElement>) => void;
-  onClickAddToCart: (event: React.MouseEvent<HTMLElement>) => void;
+  isFavorite?: { type: boolean; default: false };
+  onClickAddToFavorites?: (event: React.MouseEvent<HTMLElement>) => void;
+  onClickAddToCart?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const ProductCard = ({
   productId,
-  productImage,
+  thumbnail,
   productName,
   rating,
   price,
@@ -31,7 +31,7 @@ export const ProductCard = ({
         <Link to={`productinfo/${productId}`}>
           <img
             className='rounded-t-lg h-[150px] cursor-pointer'
-            src={productImage}
+            src={thumbnail}
             alt='productName'
           />
         </Link>
