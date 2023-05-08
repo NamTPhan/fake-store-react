@@ -10,7 +10,7 @@ interface ProductCardProps {
   productName: string;
   rating: number;
   price: number;
-  isFavorite?: { type: boolean; default: false };
+  isFavorite: boolean;
   onClickAddToFavorites?: (event: React.MouseEvent<HTMLElement>) => void;
   onClickAddToCart?: (event: React.MouseEvent<HTMLElement>) => void;
 }
@@ -21,7 +21,7 @@ export const ProductCard = ({
   productName,
   rating,
   price,
-  isFavorite,
+  isFavorite = false,
   onClickAddToFavorites,
   onClickAddToCart,
 }: ProductCardProps) => {

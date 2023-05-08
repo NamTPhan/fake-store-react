@@ -5,11 +5,12 @@ import {
   useGetProductsQuery,
 } from "../features/apiSlice";
 import { IProduct } from "../interfaces/product.interface";
-import { useDispatch } from "react-redux";
-import { addFavorite } from "../features/favoriteSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../features/favoriteSlice";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
+  const favorites = useSelector((state: any) => state.favorites);
 
   const { data: productCategories, isSuccess: hasCategoriesLoaded } =
     useGetProductCategoriesQuery();
@@ -21,8 +22,18 @@ export const HomePage = () => {
     isError: hasProductsError,
   } = useGetProductsQuery();
 
-  const addRemoveProductFavorite = (product: IProduct) => {
-    dispatch(addFavorite(product));
+  const addRemoveProductFavorite = (product: IProduct): void => {
+    if (isProductInFavorites(product.id)) {
+      dispatch(removeFavorite(product.id));
+    } else {
+      dispatch(addFavorite(product));
+    }
+  };
+
+  const isProductInFavorites = (productId: number): boolean => {
+    return favorites.products.some(
+      (favorite: IProduct) => favorite.id === productId
+    );
   };
 
   return (
@@ -88,7 +99,7 @@ export const HomePage = () => {
                 price={product.price}
                 rating={product.rating}
                 thumbnail={product.thumbnail}
-                // is-favorite={isProductInFavorites(product)}
+                isFavorite={isProductInFavorites(product.id)}
                 onClickAddToFavorites={() => addRemoveProductFavorite(product)}
                 // onClickAddToCart={cartStore.addToCart(product)}
               />

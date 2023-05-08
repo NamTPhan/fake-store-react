@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IProduct } from "../interfaces/product.interface";
 
 interface FavoriteState {
-  favorites: IProduct[];
+  products: IProduct[];
 }
 
 const initialState: FavoriteState = {
-  favorites: [],
+  products: [],
 };
 
 export const favoriteSlice = createSlice({
@@ -14,10 +14,15 @@ export const favoriteSlice = createSlice({
   initialState,
   reducers: {
     addFavorite: (state, action) => {
-      state.favorites = [...state.favorites, action.payload];
+      state.products = [...state.products, action.payload];
+    },
+    removeFavorite: (state, action) => {
+      state.products = state.products.filter(
+        product => product.id !== action.payload
+      );
     },
   },
 });
 
-export const { addFavorite } = favoriteSlice.actions;
+export const { addFavorite, removeFavorite } = favoriteSlice.actions;
 export default favoriteSlice.reducer;

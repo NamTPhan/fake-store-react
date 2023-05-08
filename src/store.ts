@@ -1,16 +1,29 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./features/themeSlice";
 import favoriteReducer from "./features/favoriteSlice";
 import { apiSlice } from "./features/apiSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const reducer = combineReducers({
+  theme: themeReducer,
+  favorites: favoriteReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
-  reducer: {
-    theme: themeReducer,
-    favorites: favoriteReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
-  },
+  reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      apiSlice.middleware
+    ),
 });
 
 export default store;
