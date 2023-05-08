@@ -8,6 +8,7 @@ import { IProduct } from "../interfaces/product.interface";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavorite, removeFavorite } from "../features/favoriteSlice";
 import { addProductToCart } from "../features/productSlice";
+import { showSuccessToastLightTheme } from "../helpers/toast";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -102,7 +103,10 @@ export const HomePage = () => {
                 thumbnail={product.thumbnail}
                 isFavorite={isProductInFavorites(product.id)}
                 onClickAddToFavorites={() => addRemoveProductFavorite(product)}
-                onClickAddToCart={() => dispatch(addProductToCart(product))}
+                onClickAddToCart={() => {
+                  dispatch(addProductToCart(product));
+                  showSuccessToastLightTheme("Successfully added to cart!");
+                }}
               />
             </div>
           ))}

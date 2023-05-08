@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useGetSingleProductQuery } from "../features/apiSlice";
 import { addProductToCart } from "../features/productSlice";
 import { useDispatch } from "react-redux";
+import { showSuccessToastLightTheme } from "../helpers/toast";
 
 export const ProductInfoPage = () => {
   const dispatch = useDispatch();
@@ -90,7 +91,10 @@ export const ProductInfoPage = () => {
 
                 <button
                   className='mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-green-500 py-3 px-8 text-base font-medium text-white hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                  onClick={() => dispatch(addProductToCart(product))}
+                  onClick={() => {
+                    dispatch(addProductToCart(product));
+                    showSuccessToastLightTheme("Successfully added to cart!");
+                  }}
                 >
                   Add to Cart
                 </button>
