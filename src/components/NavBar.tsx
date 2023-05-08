@@ -6,9 +6,11 @@ import HamburgerMenuIcon from "../assets/svg/outline-bars-3.svg";
 import CrossIcon from "../assets/svg/cross-white.svg";
 import { SearchBar } from "./Searchbar";
 import { IndeterminateProgressBar } from "./IndeterminateProgressBar/IndeterminateProgressBar";
+import { ShoppingCartSidebar } from "./ShoppingCartSideBar";
 
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
     <>
@@ -93,10 +95,7 @@ export const NavBar = () => {
                   </div>
                 </div>
 
-                <button
-                  type='button'
-                  onClick={() => console.log("toggleCartSideBar")}
-                >
+                <button type='button' onClick={() => setIsCartOpen(true)}>
                   <span className='sr-only'>Cart</span>
                   <img src={CartIcon} alt='cart' />
                 </button>
@@ -107,10 +106,7 @@ export const NavBar = () => {
                 <span className='sr-only'>View Favorites</span>
                 <img src={HeartIcon} alt='favorite' />
               </a>
-              <button
-                type='button'
-                onClick={() => console.log("toggleCartSideBar")}
-              >
+              <button type='button' onClick={() => setIsCartOpen(true)}>
                 <span className='sr-only'>Cart</span>
                 <img src={CartIcon} alt='cart' />
               </button>
@@ -191,6 +187,10 @@ export const NavBar = () => {
         )}
       </nav>
       <IndeterminateProgressBar />
+      <ShoppingCartSidebar
+        isVisible={isCartOpen}
+        onClickClose={() => setIsCartOpen(false)}
+      />
     </>
   );
 };

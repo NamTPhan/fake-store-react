@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./features/themeSlice";
 import favoriteReducer from "./features/favoriteSlice";
+import ProductReducer from "./features/productSlice";
 import { apiSlice } from "./features/apiSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
@@ -13,6 +14,7 @@ const persistConfig = {
 const reducer = combineReducers({
   theme: themeReducer,
   favorites: favoriteReducer,
+  products: ProductReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

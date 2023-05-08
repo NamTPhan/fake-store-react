@@ -3,6 +3,8 @@ import "./index.css";
 import { NavBar } from "./components/NavBar.tsx";
 import { RouterProvider } from "react-router-dom";
 import { routes } from "./router/router.tsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [theme] = useState("light");
@@ -18,6 +20,7 @@ const App = () => {
     <div className={theme}>
       <NavBar />
       <RouterProvider router={routes} />
+      <ToastContainer />
     </div>
   );
 };
