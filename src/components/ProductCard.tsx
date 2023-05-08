@@ -28,7 +28,7 @@ export const ProductCard = ({
   return (
     <div className='flex flex-col bg-white p-4 w-[300px] h-[350px] shadow-md rounded-lg border border-gray-200'>
       <div className='flex self-center'>
-        <Link to={`productinfo/${productId}`}>
+        <Link to={`productinfo/${productId}`} state={{ id: productId }}>
           <img
             className='rounded-t-lg h-[150px] cursor-pointer'
             src={thumbnail}

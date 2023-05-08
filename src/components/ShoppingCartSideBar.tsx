@@ -21,7 +21,7 @@ export const ShoppingCartSidebar = ({
   const calculateTotalCartPrice = (): number => {
     const initialValue = 0;
     const sumPrices = cartItems?.cart?.reduce(
-      (total: number, amount: IProduct) => (total += amount["price"]),
+      (total: number, amount: number) => (total += amount["price"]),
       initialValue
     );
 
@@ -36,11 +36,6 @@ export const ShoppingCartSidebar = ({
         role='dialog'
         aria-modal='true'
       >
-        <div
-          onClick={() => onClickClose}
-          className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity'
-        ></div>
-
         <div className='fixed inset-0 overflow-hidden'>
           <div className='absolute inset-0 overflow-hidden'>
             <div className='pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10'>
@@ -73,50 +68,55 @@ export const ShoppingCartSidebar = ({
                         )}
 
                         <ul className='-my-6 divide-y divide-gray-200'>
-                          {cartItems?.cart?.map((product: IProduct) => {
-                            return (
-                              <li key={product.id} className='flex py-6'>
-                                <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
-                                  <img
-                                    src={product.thumbnail}
-                                    alt='product thumbnail'
-                                    className='h-full w-full object-cover object-center'
-                                  />
-                                </div>
+                          {cartItems?.cart?.map(
+                            (product: IProduct, index: number) => {
+                              return (
+                                <li
+                                  key={product.id + index}
+                                  className='flex py-6'
+                                >
+                                  <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
+                                    <img
+                                      src={product.thumbnail}
+                                      alt='product thumbnail'
+                                      className='h-full w-full object-cover object-center'
+                                    />
+                                  </div>
 
-                                <div className='ml-4 flex flex-1 flex-col'>
-                                  <div>
-                                    <div className='flex justify-between text-base font-medium text-gray-900'>
-                                      <h3>{product.title}</h3>
-                                      <p className='ml-4'>
-                                        €&nbsp;{product.price},-
+                                  <div className='ml-4 flex flex-1 flex-col'>
+                                    <div>
+                                      <div className='flex justify-between text-base font-medium text-gray-900'>
+                                        <h3>{product.title}</h3>
+                                        <p className='ml-4'>
+                                          €&nbsp;{product.price},-
+                                        </p>
+                                      </div>
+                                      <p className='mt-1 text-sm text-left capitalize text-gray-500'>
+                                        Category: {product.category}
                                       </p>
                                     </div>
-                                    <p className='mt-1 text-sm text-left capitalize text-gray-500'>
-                                      Category: {product.category}
-                                    </p>
-                                  </div>
-                                  <div className='flex flex-1 items-end justify-between text-sm'>
-                                    <p className='text-gray-500'>Qty 1</p>
+                                    <div className='flex flex-1 items-end justify-between text-sm'>
+                                      <p className='text-gray-500'>Qty 1</p>
 
-                                    <div className='flex'>
-                                      <button
-                                        type='button'
-                                        className='font-medium text-red-500 hover:text-indigo-500'
-                                        onClick={() =>
-                                          dispatch(
-                                            removeProductFromCart(product.id)
-                                          )
-                                        }
-                                      >
-                                        Remove
-                                      </button>
+                                      <div className='flex'>
+                                        <button
+                                          type='button'
+                                          className='font-medium text-red-500 hover:text-indigo-500'
+                                          onClick={() =>
+                                            dispatch(
+                                              removeProductFromCart(index)
+                                            )
+                                          }
+                                        >
+                                          Remove
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </li>
-                            );
-                          })}
+                                </li>
+                              );
+                            }
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -153,6 +153,10 @@ export const ShoppingCartSidebar = ({
                     </div>
                   </div>
                 </div>
+                <div
+                  onClick={onClickClose}
+                  className='fixed -z-10 inset-0 bg-gray-500 bg-opacity-75 transition-opacity'
+                />
               </div>
             </div>
           </div>
