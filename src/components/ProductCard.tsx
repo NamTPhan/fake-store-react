@@ -21,7 +21,7 @@ export const ProductCard = ({
   productName,
   rating,
   price,
-  isFavorite = false,
+  isFavorite,
   onClickAddToFavorites,
   onClickAddToCart,
 }: ProductCardProps) => {
