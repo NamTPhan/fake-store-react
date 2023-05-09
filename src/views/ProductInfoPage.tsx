@@ -75,7 +75,7 @@ export const ProductInfoPage = () => {
               <div className='mt-4'>
                 <h3 className='sr-only'>Rating</h3>
                 <div className='flex items-center'>
-                  <RatingStars rating={product?.id} />
+                  <RatingStars rating={product?.rating} />
                 </div>
               </div>
 

@@ -3,10 +3,12 @@ import { IProduct } from "../interfaces/product.interface";
 
 interface ProductState {
   cart: IProduct[];
+  searchQuery: string;
 }
 
 const initialState: ProductState = {
   cart: [],
+  searchQuery: "",
 };
 
 export const productSlice = createSlice({
@@ -22,8 +24,15 @@ export const productSlice = createSlice({
         ...state.cart.slice(action.payload + 1),
       ];
     },
+    setProductSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
   },
 });
 
-export const { addProductToCart, removeProductFromCart } = productSlice.actions;
+export const {
+  addProductToCart,
+  removeProductFromCart,
+  setProductSearchQuery,
+} = productSlice.actions;
 export default productSlice.reducer;

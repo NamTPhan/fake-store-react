@@ -44,4 +44,6 @@ export const {
   useGetSingleProductQuery,
   useGetSearchProductsQuery,
   useGetProductsOfCategoryQuery,
+  useLazyGetProductsOfCategoryQuery,
+  useLazyGetSearchProductsQuery,
 } = apiSlice;

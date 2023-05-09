@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProductCard } from "../components/ProductCard";
 import {
+  apiSlice,
   useGetProductCategoriesQuery,
   useGetProductsQuery,
+  useLazyGetProductsOfCategoryQuery,
 } from "../features/apiSlice";
 import { IProduct } from "../interfaces/product.interface";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,17 +14,36 @@ import { showSuccessToastLightTheme } from "../helpers/toast";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
+  const [selectedProductCategory, setSelectedProductCategory] = useState("");
+  const [productList, setProductList] = useState([]);
   const favorites = useSelector((state: any) => state.favorites);
+  const products = useSelector((state: any) => state.products);
 
-  const { data: productCategories, isSuccess: hasCategoriesLoaded } =
-    useGetProductCategoriesQuery();
+  const [fetchProductsOfCategory, productsOfCategory] =
+    useLazyGetProductsOfCategoryQuery();
+  const searchProductList = apiSlice.endpoints.getSearchProducts.useQueryState(
+    { searchQuery: products.searchQuery },
+    {}
+  );
+
+  useEffect(() => {
+    setProductList(searchProductList?.data?.products);
+  }, [products.searchQuery, searchProductList]);
 
   const {
     data: allProducts,
-    isLoading,
-    isSuccess,
+    isLoading: isLoadingAllProducts,
     isError: hasProductsError,
   } = useGetProductsQuery();
+
+  useEffect(() => {
+    if (selectedProductCategory === "") {
+      setProductList(allProducts?.products);
+    }
+  }, [allProducts?.products, selectedProductCategory]);
+
+  const { data: productCategories, isSuccess: hasCategoriesLoaded } =
+    useGetProductCategoriesQuery();
 
   const addRemoveProductFavorite = (product: IProduct): void => {
     if (isProductInFavorites(product.id)) {
@@ -36,6 +57,13 @@ export const HomePage = () => {
     return favorites.products.some(
       (favorite: IProduct) => favorite.id === productId
     );
+  };
+
+  const getProductsOfACategory = (category: string) => {
+    fetchProductsOfCategory({ category }).then(res => {
+      setSelectedProductCategory(category);
+      setProductList(res.data.products);
+    });
   };
 
   return (
@@ -56,19 +84,17 @@ export const HomePage = () => {
             className='md:hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
           >
             <option value=''>Select a category</option>
-            <option
-              v-for='category in getProductCategories'
-              key='category'
-              value='category'
-            >
-              {}
-            </option>
+            {productCategories.map((category: string) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
           </select>
           {productCategories.map((category: string) => (
             <button
               key={category}
               className='hidden md:block group relative h-12 w-48 mr-2 my-2 overflow-hidden rounded-lg bg-white text-lg shadow'
-              // onClick="getProductsFromCategory(category)"
+              onClick={() => getProductsOfACategory(category)}
             >
               <div className='absolute inset-0 w-3 bg-green-500 transition-all duration-[250ms] ease-out group-hover:w-full'></div>
               <span className='relative text-black group-hover:text-white capitalize'>
@@ -79,37 +105,36 @@ export const HomePage = () => {
         </div>
       )}
       <div className='flex flex-col md:flex-row justify-center flex-wrap py-4 px-6'>
-        {isLoading && (
+        {(isLoadingAllProducts || productsOfCategory.isLoading) && (
           <div
             className='w-12 h-12 rounded-full animate-spin
                     border-4 border-solid border-green-500 border-t-transparent shadow-md'
           />
         )}
 
-        {hasProductsError && (
+        {hasProductsError && productsOfCategory.isError && (
           <h2 className='text-2xl text-center'>
             No products found... Please try again later.
           </h2>
         )}
 
-        {isSuccess &&
-          allProducts.products.map((product: IProduct) => (
-            <div key={product.id} className='flex justify-center mx-2 my-2'>
-              <ProductCard
-                productId={product.id}
-                productName={product.title}
-                price={product.price}
-                rating={product.rating}
-                thumbnail={product.thumbnail}
-                isFavorite={isProductInFavorites(product.id)}
-                onClickAddToFavorites={() => addRemoveProductFavorite(product)}
-                onClickAddToCart={() => {
-                  dispatch(addProductToCart(product));
-                  showSuccessToastLightTheme("Successfully added to cart!");
-                }}
-              />
-            </div>
-          ))}
+        {productList?.map((product: IProduct) => (
+          <div key={product.id} className='flex justify-center mx-2 my-2'>
+            <ProductCard
+              productId={product.id}
+              productName={product.title}
+              price={product.price}
+              rating={product.rating}
+              thumbnail={product.thumbnail}
+              isFavorite={isProductInFavorites(product.id)}
+              onClickAddToFavorites={() => addRemoveProductFavorite(product)}
+              onClickAddToCart={() => {
+                dispatch(addProductToCart(product));
+                showSuccessToastLightTheme("Successfully added to cart!");
+              }}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
