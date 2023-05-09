@@ -1,7 +1,6 @@
 import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
 import { persistStore } from "redux-persist";
@@ -22,4 +21,3 @@ root.render(
 );
 
 localStorage.setItem("theme", "light");
-// reportWebVitals(console.log);
