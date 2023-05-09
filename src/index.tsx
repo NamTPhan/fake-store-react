@@ -22,4 +22,4 @@ root.render(
 );
 
 localStorage.setItem("theme", "light");
-reportWebVitals(console.log);
+// reportWebVitals(console.log);
