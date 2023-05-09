@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ProductCard } from "../components/ProductCard";
 import {
+  apiSlice,
   useGetProductCategoriesQuery,
   useGetProductsQuery,
   useLazyGetProductsOfCategoryQuery,
@@ -16,9 +17,18 @@ export const HomePage = () => {
   const [selectedProductCategory, setSelectedProductCategory] = useState("");
   const [productList, setProductList] = useState([]);
   const favorites = useSelector((state: any) => state.favorites);
+  const products = useSelector((state: any) => state.products);
 
   const [fetchProductsOfCategory, productsOfCategory] =
     useLazyGetProductsOfCategoryQuery();
+  const searchProductList = apiSlice.endpoints.getSearchProducts.useQueryState(
+    { searchQuery: products.searchQuery },
+    {}
+  );
+
+  useEffect(() => {
+    setProductList(searchProductList?.data?.products);
+  }, [products.searchQuery, searchProductList]);
 
   const {
     data: allProducts,

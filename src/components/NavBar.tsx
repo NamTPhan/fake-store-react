@@ -7,10 +7,24 @@ import CrossIcon from "../assets/svg/cross-white.svg";
 import { SearchBar } from "./Searchbar";
 import { IndeterminateProgressBar } from "./IndeterminateProgressBar/IndeterminateProgressBar";
 import { ShoppingCartSidebar } from "./ShoppingCartSideBar";
+import { useLazyGetSearchProductsQuery } from "../features/apiSlice";
+import { setProductSearchQuery } from "../features/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const NavBar = () => {
+  const dispatch = useDispatch();
+  const products = useSelector((state: any) => state.products);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [fetchSearchProducts] = useLazyGetSearchProductsQuery();
+
+  const searchProducts = () => {
+    if (products?.searchQuery !== searchQuery) {
+      dispatch(setProductSearchQuery(searchQuery));
+      fetchSearchProducts({ searchQuery });
+    }
+  };
 
   return (
     <>
@@ -30,8 +44,8 @@ export const NavBar = () => {
                 id='navbar-search'
                 name='navbar-search'
                 placeholder='Search in store'
-                onChange={e => console.log(e.target.value)}
-                onClick={e => console.log(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
+                onClick={e => searchProducts()}
               />
             </div>
             <div className='hidden md:block'>
@@ -146,8 +160,8 @@ export const NavBar = () => {
                 id='navbar-mobile-search'
                 name='navbar-mobile-search'
                 placeholder='Search in store'
-                onChange={e => console.log(e.target.value)}
-                onClick={() => console.log()}
+                onChange={e => setSearchQuery(e.target.value)}
+                onClick={e => searchProducts()}
               />
               {/* TODO: Replace hidden with block  */}
               <a
