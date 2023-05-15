@@ -2,7 +2,7 @@ import React from "react";
 import HeartFilledRed from "../assets/svg/heart-filled-red.svg";
 import HeartFilledGrey from "../assets/svg/heart-outline-grey.svg";
 import { RatingStars } from "./RatingStars/RatingStars";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 interface ProductCardProps {
   productId: number;
@@ -11,6 +11,7 @@ interface ProductCardProps {
   rating: number;
   price: number;
   isFavorite: boolean;
+  isLinkRedirectAReplace?: boolean;
   onClickAddToFavorites?: (event: React.MouseEvent<HTMLElement>) => void;
   onClickAddToCart?: (event: React.MouseEvent<HTMLElement>) => void;
 }
@@ -22,19 +23,34 @@ export const ProductCard = ({
   rating,
   price,
   isFavorite,
+  isLinkRedirectAReplace,
   onClickAddToFavorites,
   onClickAddToCart,
 }: ProductCardProps) => {
   return (
     <div className='flex flex-col bg-white p-4 w-[300px] h-[350px] shadow-md rounded-lg border border-gray-200'>
       <div className='flex self-center'>
-        <Link to={`productinfo/${productId}`} state={{ id: productId }}>
-          <img
-            className='rounded-t-lg h-[150px] cursor-pointer'
-            src={thumbnail}
-            alt='productName'
-          />
-        </Link>
+        {isLinkRedirectAReplace ? (
+          <NavLink
+            to={`/productinfo/${productId}`}
+            replace
+            state={{ id: productId }}
+          >
+            <img
+              className='rounded-t-lg h-[150px] cursor-pointer'
+              src={thumbnail}
+              alt='productName'
+            />
+          </NavLink>
+        ) : (
+          <Link to={`productinfo/${productId}`} state={{ id: productId }}>
+            <img
+              className='rounded-t-lg h-[150px] cursor-pointer'
+              src={thumbnail}
+              alt='productName'
+            />
+          </Link>
+        )}
       </div>
       <div className='flex self-center'>
         <h3 className='text-gray-900 font-semibold text-lg tracking-tight'>
