@@ -81,7 +81,8 @@ export const HomePage = () => {
           <select
             id='categories'
             defaultValue=''
-            className='md:hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            className='md:hidden capitalize bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            onChange={e => getProductsOfACategory(e.target.value)}
           >
             <option value=''>Select a category</option>
             {productCategories.map((category: string) => (
@@ -104,14 +105,17 @@ export const HomePage = () => {
           ))}
         </div>
       )}
-      <div className='flex flex-col md:flex-row justify-center flex-wrap py-4 px-6'>
-        {(isLoadingAllProducts || productsOfCategory.isLoading) && (
+
+      {(isLoadingAllProducts || productsOfCategory.isLoading) && (
+        <div className='flex justify-center'>
           <div
             className='w-12 h-12 rounded-full animate-spin
                     border-4 border-solid border-green-500 border-t-transparent shadow-md'
           />
-        )}
+        </div>
+      )}
 
+      <div className='flex flex-col md:flex-row justify-center flex-wrap py-4 px-6'>
         {hasProductsError && productsOfCategory.isError && (
           <h2 className='text-2xl text-center'>
             No products found... Please try again later.

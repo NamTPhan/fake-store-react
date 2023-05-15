@@ -3,6 +3,8 @@ import { ProductCard } from "../components/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { IProduct } from "../interfaces/product.interface";
 import { removeFavorite } from "../features/favoriteSlice";
+import { addProductToCart } from "../features/productSlice";
+import { showSuccessToastLightTheme } from "../helpers/toast";
 
 export const FavoritesPage = () => {
   const dispatch = useDispatch();
@@ -10,6 +12,10 @@ export const FavoritesPage = () => {
 
   const removeProductAsFavorite = (productId: number): void => {
     dispatch(removeFavorite(productId));
+  };
+
+  const addToCart = product => {
+    dispatch(addProductToCart(product));
   };
 
   return (
@@ -36,8 +42,12 @@ export const FavoritesPage = () => {
               rating={product.rating}
               thumbnail={product.thumbnail}
               isFavorite={true}
+              isLinkRedirectAReplace={true}
               onClickAddToFavorites={() => removeProductAsFavorite(product.id)}
-              // onClickAddToCart={cartStore.addToCart(product)}
+              onClickAddToCart={() => {
+                addToCart(product);
+                showSuccessToastLightTheme("Successfully added to cart!");
+              }}
             />
           </div>
         ))}
